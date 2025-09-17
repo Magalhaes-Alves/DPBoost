@@ -150,7 +150,7 @@ def compile_cpp(use_mingw=False, use_gpu=False, use_mpi=False, nomp=False,
                 if status != 0 or not os.path.exists(lib_path):
                     logger.warning("Compilation with MSBuild from existing solution file failed.")
             if status != 0 or not os.path.exists(lib_path):
-                vs_versions = ("Visual Studio 16 2019", "Visual Studio 15 2017", "Visual Studio 14 2015")
+                vs_versions = ("Visual Studio 17 2022","Visual Studio 16 2019", "Visual Studio 15 2017", "Visual Studio 14 2015")
                 for vs in vs_versions:
                     logger.info("Starting to compile with %s." % vs)
                     status = silent_call(cmake_cmd + ["-G", vs, "-A", "x64"])

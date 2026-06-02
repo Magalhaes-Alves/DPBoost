@@ -25,8 +25,8 @@ def load_target_dataset(dataset_name):
         X, y = data.data, data.target
         y = (y == 'tested_positive').astype(int)
     elif dataset_name == "magic_gamma":
-        data = fetch_openml(data_id=1120, as_frame=True, parser='auto')
-        X, y = data.data, data.target
+        data = pd.read_csv("data/magic04.csv")
+        X, y = data.iloc[:,:-1], data.iloc[:,-1]
         y = (y == 'h').astype(int) 
     elif dataset_name == "santander":
         if not os.path.exists("train.csv"):

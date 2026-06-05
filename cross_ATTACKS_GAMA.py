@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import lightgbm as lgb
 from sklearn.datasets import load_breast_cancer, fetch_openml
+from sklearn.metrics import f1_score
 from sklearn.model_selection import RepeatedKFold
 from joblib import Parallel, delayed
 
@@ -73,6 +74,8 @@ def process_fold(dataset_name, epsilon, fold, train_idx, test_idx, X, y, plot_di
 
     X_original = np.hstack([X_train.values, y_train.values.reshape(-1, 1)])
 
+    f1 = f1_score(y_test, booster.predict(X_test))
+
     # --- ATAQUE 1: TimberStrike ---
     attacker_ts = TimberStrikeLightGBM(
         booster=booster, n_features=X_train.shape[1], feature_bounds=numerical_ranges,
@@ -113,7 +116,7 @@ def process_fold(dataset_name, epsilon, fold, train_idx, test_idx, X, y, plot_di
 
     # Retorna os resultados deste fold específico
     return {
-        "Dataset": dataset_name, "Epsilon": epsilon, "Fold": fold,
+        "Dataset": dataset_name, "Epsilon": epsilon,"f1_score":f1, "Fold": fold,
         "RA_TS": ra_ts, "Distance_TS": mean_dist_ts,
         "RA_REBOOT": ra_reboot_val, "Distance_REBOOT": mean_dist_reboot
     }
